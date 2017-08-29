@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layers>
+  <layer
+      name="iuem20.mission"
+      interface="iuem20.mission.interfaces.IIuem20MissionLayer"
+      />
+</layers>

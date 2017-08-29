@@ -1,0 +1,138 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="iuem20.mission">
+<body
+	tal:define="portal_state context/@@plone_portal_state;
+	            portal_url portal_state/portal_url">
+
+<metal:content-core fill-slot="main">
+  <metal:content-core define-macro="main">
+  <div tal:define="
+                   dates python:context.getDates();
+                   project python:context.getParentProject();
+                   label_project context/label_to_project;
+                   imgAuthor python:context.getImgAuthor();
+                   chiefs python:context.getChiefs();
+                   chiefs_title python:context.chiefs_title;
+                   team python:context.getTeam();
+                   team_title python:context.other_title;
+                   presentation python:context.getPresentation();
+                   toLocalizedTime nocall:context/@@plone/toLocalizedTime;
+                   gallery python:view.getGalleryImages();
+                   feature_info_title string:${context/title};
+                   feature_info_text string:${context/description};
+                   feature_info_link string:"
+       class="iuem20-mission">
+
+    <!-----Image de fond,fixe, l'image source est l'image principale---->
+    <div id="bg-page-img" class="hidden-xs"
+         tal:define="image nocall:context/image;">
+      <img tal:attributes="src string:${context/absolute_url}/@@download/image/${image/filename}" />
+    </div>
+
+   <!------Debut de la section titre de la mission--->
+   <section>
+			<div class="row">
+				<div id="page-title" class="col-xs-10 col-xs-offset-1 col-sm-7 col-sm-offset-0 col-md-5 col-md-offset-1">
+					<!-----Champ title---->
+					<div class="iuem20-title"
+					     tal:content="string:${context/title}">Mission title</div>
+					<hr />
+					<div class="iuem20-subtitle"
+					     tal:content="string:${context/description}">
+					     Mission subtitle</div>
+					<div class="iuem20-dates"
+					     tal:condition="dates"
+					     tal:content="string:${dates}">date debut - date fin
+					</div> <!------ Date début puis date de fin separés par " - "--->
+					<p><span tal:content="string:${label_project}">this mission is part of project </span>
+					   <a href="" tal:attributes="href string:${project/absolute_url}">
+					     <button type="button" class="btn btn-default"
+					             tal:content="string:${project/title}">project name</button>
+					   </a>
+					</p><!---lien vers le projet parent de la mission--->
+				</div>
+			</div>
+	</section>
+
+	<!---- auteur de la photo  --------->
+	<div class="img-author hidden-xs"
+	     tal:condition="python:imgAuthor"
+	     tal:content="string:${imgAuthor}">
+	</div>
+	<div class="img-no-author hidden-xs"
+	     tal:condition="python:not imgAuthor"
+	     >
+	</div>
+
+   <!--------Début de la section team---------->
+   <section>
+	<div class="bg-light-grey row">
+		<h2 class="text-center" tal:content="string:${chiefs_title}">Chefs de mission / chiefs scientist</h2>
+			<div class="thumbnail-wrapper">
+				
+				<div class="thumbnail-wrapper">
+				<span tal:omit-tag="" tal:repeat="chief chiefs">
+				     <div class="thumbnail-portrait"
+				          tal:define="image nocall:chief/thumbnail">
+				      <a href="" tal:attributes="href string:${chief/absolute_url}">
+				       <img tal:condition="image"
+				            tal:attributes="src string:${chief/absolute_url}/@@download/thumbnail/${image/filename}"
+				            class="img-circle portrait-second" />
+				       <h4 tal:content="string:${chief/first_name} ${chief/family_name}">NAME</h4>
+				       <p tal:content="python:view.getAffiliations(chief)">Affiliations</p>
+				     </a>
+				     </div>
+				</span>
+			</div>
+				   
+			</div>
+			<button id="show-participants"
+			        type="button"
+			        class="btn btn-default center-block collapser"
+			        tal:content="string:${team_title}">other participants</button>
+			<p>&nbsp;</p>
+			<div class="thumbnail-wrapper iuem20-collapse" id="show-participants-collapse" style="display:none;">
+				<span tal:omit-tag="" tal:repeat="person team">
+				     <div class="thumbnail-portrait"
+				          tal:define="image nocall:person/thumbnail">
+				      <a href="" tal:attributes="href string:${person/absolute_url}">
+				       <img tal:condition="image"
+				            tal:attributes="src string:${person/absolute_url}/@@download/thumbnail/${image/filename}"
+				            class="img-circle portrait-second" />
+				       <h4 tal:content="string:${person/first_name} ${person/family_name}">NAME</h4>
+				       <p tal:content="python:view.getAffiliations(person)">Affiliations</p>
+				     </a>
+				     </div>
+				</span>
+			</div>
+	</div>
+	</section>
+
+  <div class="bg-bright mission-text">
+   <section id="viewlet-alt-languages" tal:content="structure provider:alt-languages" />
+   <div class="row">
+       <div tal:condition="presentation"
+            class="personnel-bio col-xs-12 col-md-10 col-md-offset-1">
+		  <span tal:content="structure string:${context/presentation/raw}">
+		    presentation
+		  </span>
+	  </div>
+      <span tal:condition="gallery">
+        <metal:macro use-macro="context/iuem20_macros/macros/gallery-iuem20" />
+      </span>
+      <div>&nbsp;</div>
+   </div>
+ </div>
+</div>
+
+  </metal:content-core>
+</metal:content-core>
+
+</body>
+</html>
+  

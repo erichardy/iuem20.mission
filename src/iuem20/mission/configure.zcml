@@ -1,0 +1,69 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="iuem20.mission">
+
+  <i18n:registerTranslations directory="locales" />
+
+  <includeDependencies package="." />
+
+  <include package=".browser" />
+  <interface
+      interface=".interfaces.IIuem20MissionLayer"
+      name="iuem20.portrait"
+   />
+
+
+  <genericsetup:registerProfile
+      name="default"
+      title="iuem20.mission"
+      directory="profiles/default"
+      description="Installs the iuem20.mission add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler=".setuphandlers.post_install"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="iuem20.mission (uninstall)"
+      directory="profiles/uninstall"
+      description="Uninstalls the iuem20.mission add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler=".setuphandlers.uninstall"
+      />
+
+    <browser:page
+      name="view-mission"
+      for=".interfaces.IMission"
+      class=".mission.MissionView"
+      template="missionview.pt"
+      permission="zope2.View"
+      />
+
+   <!-- Add form -->
+   <adapter
+        name="iuem20.mission"
+	    for="Products.CMFCore.interfaces.IFolderish
+	         zope.publisher.interfaces.browser.IDefaultBrowserLayer
+	         plone.dexterity.interfaces.IDexterityFTI"
+	    provides="zope.publisher.interfaces.browser.IBrowserPage"
+	    factory=".mission.AddView"
+    />
+
+	<class class=".mission.AddView">
+	    <require
+	        permission="cmf.AddPortalContent"
+	        interface="zope.publisher.interfaces.browser.IBrowserPage"
+	        />
+	</class>
+
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="iuem20.mission-hiddenprofiles" />
+
+</configure>
