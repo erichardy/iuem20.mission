@@ -20,6 +20,7 @@
                    chiefs_title python:context.chiefs_title;
                    team python:context.getTeam();
                    team_title python:context.other_title;
+                   display_team python:len(team) > 0;
                    presentation python:context.getPresentation();
                    toLocalizedTime nocall:context/@@plone/toLocalizedTime;
                    gallery python:view.getGalleryImages();
@@ -73,9 +74,9 @@
    <section>
 	<div class="bg-light-grey row">
 		<h2 class="text-center" tal:content="string:${chiefs_title}">Chefs de mission / chiefs scientist</h2>
-			<div class="thumbnail-wrapper">
+		  <div class="thumbnail-wrapper">
 				
-				<div class="thumbnail-wrapper">
+			<div class="thumbnail-wrapper">
 				<span tal:omit-tag="" tal:repeat="chief chiefs">
 				     <div class="thumbnail-portrait"
 				          tal:define="image nocall:chief/thumbnail">
@@ -88,9 +89,9 @@
 				     </a>
 				     </div>
 				</span>
-			</div>
-				   
-			</div>
+		    </div>
+		  </div>
+		  <span tal:condition="display_team">
 			<button id="show-participants"
 			        type="button"
 			        class="btn btn-default center-block collapser"
@@ -110,6 +111,7 @@
 				     </div>
 				</span>
 			</div>
+		  </span>
 	</div>
 	</section>
 

@@ -110,7 +110,7 @@ class IMission(model.Schema):
                           value_type=RelationChoice(
                              title=_(u'Target'),
                              source=CS(portal_type='iuem20.portrait')),
-                          required=False,
+                          required=True,
                           )
     other_title = TextLine(
         title=_(u'title for other participants section'),

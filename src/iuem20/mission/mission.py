@@ -248,27 +248,21 @@ class mission(Container):
     def getTeam(self):
         """
         :return: La liste des ``iuem20.portrait`` des participants
-           à la mission. Si liste vide : ``False``
+           à la mission.
         """
         others = []
         for other in self.other:
             others.append(other.to_object)
-        # import pdb;pdb.set_trace()
-        if not len(others):
-            return False
         return others
 
     def getChiefs(self):
         """
         :return: La liste des ``iuem20.portrait`` des chefs
-           de la mission. Si liste vide : ``False``
+           de la mission.
         """
         chiefs = []
         for chief in self.chiefs:
             chiefs.append(chief.to_object)
-        # import pdb;pdb.set_trace()
-        if not len(chiefs):
-            return False
         return chiefs
 
     def getPresentation(self):
