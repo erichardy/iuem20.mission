@@ -5,6 +5,7 @@
 *.py?
 *.swp
 .project
+.pydevproject
 # dirs
 bin/
 buildout-cache/
