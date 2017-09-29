@@ -267,15 +267,15 @@ class mission(Container):
 
     def getPresentation(self):
         """
-        :return: Le texte en français en format ``raw`` s'il existe.
+        :return: Le texte en français en format ``output`` s'il existe.
            Sinon ``False``
         """
         try:
-            if len(self.presentation.raw) < 6:
+            if len(self.presentation.output) < 6:
                 # logger.info('inf a 6')
                 return False
             else:
-                return self.presentation.raw
+                return self.presentation.output
         except Exception:
             # logger.info('excepppppp')
             return False
