@@ -22,12 +22,13 @@ tools to get coordinates :
 
 from iuem20.mission import _
 from iuem20.mission.interfaces import IMission
-# from plone import api
+from plone import api
 # from plone.dexterity.browser import edit
 # from plone.autoform import directives
 from plone.dexterity.browser import add
 from plone.dexterity.content import Container
 from plonetheme.iuem20.utils import getGalleryImages as ggi
+from plonetheme.iuem20.utils import canView
 # from Products.CMFPlone.utils import safe_unicode
 from z3c.form import button
 # from plone.supermodel.directives import fieldset
@@ -123,6 +124,11 @@ class MissionView(BrowserView):
     .. note:: les méthodes de cette vue ne sont généralement pas utilisées.
        on préfère utiliser les méthodes de l'objet lui-même
     """
+    def _canView(self, obj, username):
+        perm = api.user.get_permissions(
+                    username=username, obj=obj
+                    )
+        return perm['View']
 
     def _date_fr(self, date):
         j = date.strftime('%d')
@@ -147,14 +153,26 @@ class MissionView(BrowserView):
         return self.context.pict_author
 
     def getChief(self):
-        return self.context.chief.to_object
+        if canView(self.context.chief.to_object):
+            return self.context.chief.to_object
+        else:
+            return False
+
+    def getChiefs(self):
+        """
+        :return: La liste des ``iuem20.portrait`` des chefs
+           de la mission.
+        """
+        chiefs = [chief.to_object
+                  for chief in self.context.chiefs
+                  if canView(chief.to_object)]
+        return chiefs
 
     def getTeam(self):
-        others = []
-        for other in self.context.other:
-            others.append(other.to_object)
-        # import pdb;pdb.set_trace()
-        return others
+        other = [o.to_object
+                 for o in self.context.other
+                 if canView(o.to_object)]
+        return other
 
     def getAffiliations(self, person):
         aff = u''
@@ -250,19 +268,19 @@ class mission(Container):
         :return: La liste des ``iuem20.portrait`` des participants
            à la mission.
         """
-        others = []
-        for other in self.other:
-            others.append(other.to_object)
-        return others
+        other = [o.to_object
+                 for o in self.context.other
+                 if canView(o.to_object)]
+        return other
 
     def getChiefs(self):
         """
         :return: La liste des ``iuem20.portrait`` des chefs
            de la mission.
         """
-        chiefs = []
-        for chief in self.chiefs:
-            chiefs.append(chief.to_object)
+        chiefs = [chief.to_object
+                  for chief in self.context.chiefs
+                  if canView(chief.to_object)]
         return chiefs
 
     def getPresentation(self):

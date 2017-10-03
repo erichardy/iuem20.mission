@@ -16,9 +16,9 @@
                    project python:context.getParentProject();
                    label_project context/label_to_project;
                    imgAuthor python:context.getImgAuthor();
-                   chiefs python:context.getChiefs();
+                   chiefs python:view.getChiefs();
                    chiefs_title python:context.chiefs_title;
-                   team python:context.getTeam();
+                   team python:view.getTeam();
                    team_title python:context.other_title;
                    display_team python:len(team) > 0;
                    presentation python:context.getPresentation();
