@@ -269,7 +269,7 @@ class mission(Container):
            à la mission.
         """
         other = [o.to_object
-                 for o in self.context.other
+                 for o in self.other
                  if canView(o.to_object)]
         return other
 
@@ -279,7 +279,7 @@ class mission(Container):
            de la mission.
         """
         chiefs = [chief.to_object
-                  for chief in self.context.chiefs
+                  for chief in self.chiefs
                   if canView(chief.to_object)]
         return chiefs
 
