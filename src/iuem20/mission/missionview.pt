@@ -115,24 +115,22 @@
 	</div>
 	</section>
 
-  <div class="bg-bright mission-text">
-    <div class="full-width row">
-        <div class="col-xs-12 col-md-10 col-md-offset-1">
-    		<section id="viewlet-alt-languages" tal:content="structure provider:alt-languages" />
-    	</div>
+  <div class="bg-bright ">
+    <div class="mission-text">
+    	<section id="viewlet-alt-languages" tal:content="structure provider:alt-languages" />
     </div>
-   <div class="row">
-       <div tal:condition="presentation"
-            class="personnel-bio col-xs-12 col-md-10 col-md-offset-1">
-		  <span tal:content="structure string:${context/presentation/raw}">
+   <div class="mission-text">
+       <div tal:condition="presentation">
+		  <span tal:content="structure python:context.presentation.output_relative_to(view.context)">
 		    presentation
 		  </span>
 	  </div>
-      <span tal:condition="gallery">
-        <metal:macro use-macro="context/iuem20_macros/macros/gallery-iuem20" />
-      </span>
-      <div>&nbsp;</div>
    </div>
+   <span tal:condition="gallery">
+     <metal:macro use-macro="context/iuem20_macros/macros/gallery-iuem20" />
+   </span>
+   <div>&nbsp;</div>
+
  </div>
 </div>
 
